@@ -57,7 +57,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* Main Content: Card Grid */}
+      {/* Main Content Section */}
       <section className="max-w-7xl w-full mx-auto px-8 py-8">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-slate-900">
@@ -69,6 +69,7 @@ export default function App() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Card Grid */}
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {technologies.map((tech) => (
               <div key={tech.id} className="bg-white rounded-xl border border-slate-100 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition relative">
@@ -94,6 +95,34 @@ export default function App() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Right Sidebar: Your Stack */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl border border-slate-100 p-5 shadow-sm sticky top-6">
+              <h3 className="font-bold text-slate-900 text-base">Your Stack</h3>
+              <p className="text-xs text-slate-400 mb-4">
+                {selectedStack.length} Technology Selected
+              </p>
+
+              {selectedStack.length === 0 ? (
+                <div className="text-center py-8 text-xs text-slate-400 border border-dashed border-slate-200 rounded-lg">
+                  No technologies selected yet.
+                </div>
+              ) : (
+                <div className="space-y-2 mb-6">
+                  {selectedStack.map((item) => (
+                    <div key={item.id} className="flex items-center justify-between p-2 rounded-lg border border-slate-100 bg-slate-50 text-xs">
+                      <div className="flex items-center gap-2">
+                        <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
+                        <span className="font-medium text-slate-700">{item.name}</span>
+                      </div>
+                      <button className="text-slate-400 hover:text-red-500 font-bold text-sm px-1">×</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
