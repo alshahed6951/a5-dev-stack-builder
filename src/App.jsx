@@ -75,7 +75,7 @@ export default function App() {
       </section>
 
       {/* Main Content Section */}
-      <section className="max-w-7xl w-full mx-auto px-8 py-8">
+      <section className="max-w-7xl w-full mx-auto px-8 py-8 flex-grow">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-slate-900">
             Explore the <span className="text-purple-600">Technologies</span>
@@ -169,6 +169,17 @@ export default function App() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="mt-auto border-t border-slate-200 bg-white py-10 px-8">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="flex items-center gap-2">
+            <div className="bg-pink-600 text-white font-bold p-1 rounded text-xs">DS</div>
+            <span className="font-bold text-slate-900 text-sm">Dev Stack</span>
+          </div>
+          <p>© Dev Stack Builder. All rights reserved.</p>
+        </div>
+      </footer>
     </div>
   );
 }
