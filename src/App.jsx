@@ -5,35 +5,39 @@ export default function App() {
   const [technologies, setTechnologies] = useState([]);
   const [selectedStack, setSelectedStack] = useState([]);
 
+  // json asset theke data lod kora hocche
   useEffect(() => {
     setTechnologies(techData);
   }, []);
 
-  // Stack-এ প্রযুক্তি যোগ করার লজিক
+  // stack e card add krte handle func
   const handleAddToStack = (tech) => {
-    if (!selectedStack.some((item) => item.id === tech.id)) {
+    const exists = selectedStack.some((item) => item.id === tech.id);
+    if (!exists) {
       setSelectedStack([...selectedStack, tech]);
     }
   };
 
-  // Stack থেকে সিঙ্গেল আইটেম ডিলিট করার লজিক
+  // single item rimove kora
   const handleRemoveFromStack = (id) => {
-    setSelectedStack(selectedStack.filter((item) => item.id !== id));
+    const updated = selectedStack.filter((item) => item.id !== id);
+    setSelectedStack(updated);
   };
 
-  // সব আইটেম একসাথে ক্লিয়ার করার লজিক
-  const handleClearAll = () => {
+  // clear all item btn action
+  const handleRemoveAll = () => {
     setSelectedStack([]);
   };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
-      {/* Navbar */}
+      {/* main nav bar */}
       <nav className="flex items-center justify-between px-8 py-4 bg-white border-b border-slate-100 max-w-7xl w-full mx-auto">
         <div className="flex items-center gap-2">
           <div className="bg-pink-600 text-white font-bold p-1.5 rounded-lg text-sm">DS</div>
           <span className="font-bold text-lg text-slate-900">Dev Stack</span>
         </div>
+        
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
           <a href="#" className="hover:text-pink-600">Home</a>
           <a href="#" className="hover:text-pink-600">Technologies</a>
@@ -41,13 +45,16 @@ export default function App() {
           <a href="#" className="hover:text-pink-600">About</a>
           <a href="#" className="hover:text-pink-600">Contact</a>
         </div>
+
         <div className="flex items-center gap-4 text-sm font-medium">
           <button className="text-slate-700 hover:text-slate-900">Sign In</button>
-          <button className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-semibold transition">Sign Up</button>
+          <button className="bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg font-semibold transition">
+            Sign Up
+          </button>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* hero sec -- */}
       <section className="max-w-7xl w-full mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div>
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
@@ -69,13 +76,18 @@ export default function App() {
           </div>
         </div>
 
+        {/* banner img section */}
         <div className="flex justify-center">
-          <img src="/banner-stack.png" alt="Dev Stack Illustration" className="w-full max-w-sm object-contain" />
+          <img
+            src="/banner-stack.png"
+            alt="Dev Stack Illustration"
+            className="w-full max-w-sm object-contain"
+          />
         </div>
       </section>
 
-      {/* Main Content Section */}
-      <section className="max-w-7xl w-full mx-auto px-8 py-8 flex-grow">
+      {/* tech grid container */}
+      <section className="max-w-7xl w-full mx-auto px-8 py-8">
         <div className="mb-8">
           <h2 className="text-2xl font-bold text-slate-900">
             Explore the <span className="text-purple-600">Technologies</span>
@@ -86,35 +98,45 @@ export default function App() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Card Grid */}
+          {/* left site card list */}
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {technologies.map((tech) => {
               const isAdded = selectedStack.some((item) => item.id === tech.id);
+
               return (
-                <div key={tech.id} className="bg-white rounded-xl border border-slate-100 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition relative">
+                <div
+                  key={tech.id}
+                  className="bg-white rounded-xl border border-slate-100 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition relative"
+                >
                   <div>
+                    {/* card top badge */}
                     <div className="flex justify-between items-start mb-3">
                       <img src={tech.icon} alt={tech.name} className="w-8 h-8 object-contain" />
                       <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-500 border border-blue-100">
                         {tech.badge}
                       </span>
                     </div>
+
                     <h3 className="font-bold text-slate-900 text-base mb-1">{tech.name}</h3>
-                    <p className="text-xs text-slate-500 line-clamp-3 mb-4 leading-relaxed">{tech.description}</p>
+                    <p className="text-xs text-slate-500 line-clamp-3 mb-4 leading-relaxed">
+                      {tech.description}
+                    </p>
                   </div>
+
                   <div>
                     <div className="flex items-center justify-between text-[11px] text-slate-400 mb-3 border-t pt-3">
                       <span>{tech.category}</span>
                       <span>{tech.experienceLevel}</span>
                       <span className="text-amber-500 font-bold">★ {tech.rating}</span>
                     </div>
+
                     <button
                       onClick={() => handleAddToStack(tech)}
                       disabled={isAdded}
                       className={`w-full py-2 rounded-lg font-medium text-xs transition ${
                         isAdded
-                          ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                          : "bg-slate-900 text-white hover:bg-slate-800"
+                          ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                          : "bg-slate-900 hover:bg-slate-800 text-white"
                       }`}
                     >
                       {isAdded ? "Added" : "Add to Stack"}
@@ -125,32 +147,25 @@ export default function App() {
             })}
           </div>
 
-          {/* Right Sidebar: Your Stack */}
+          {/* right side sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl border border-slate-100 p-5 shadow-sm sticky top-6">
-              <div className="flex items-center justify-between mb-1">
-                <h3 className="font-bold text-slate-900 text-base">Your Stack</h3>
-                {selectedStack.length > 0 && (
-                  <button
-                    onClick={handleClearAll}
-                    className="text-xs text-red-500 hover:underline font-medium"
-                  >
-                    Clear All
-                  </button>
-                )}
-              </div>
+              <h3 className="font-bold text-slate-900 text-base">Your Stack</h3>
               <p className="text-xs text-slate-400 mb-4">
                 {selectedStack.length} Technology Selected
               </p>
 
               {selectedStack.length === 0 ? (
-                <div className="text-center py-8 text-xs text-slate-400 border border-dashed border-slate-200 rounded-lg">
+                <div className="text-center py-8 text-xs text-slate-400 border border-dashed rounded-lg">
                   No technologies selected yet.
                 </div>
               ) : (
                 <div className="space-y-2 mb-6">
                   {selectedStack.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-2 rounded-lg border border-slate-100 bg-slate-50 text-xs">
+                    <div
+                      key={item.id}
+                      className="flex items-center justify-between p-2 rounded-lg border border-slate-100 bg-slate-50 text-xs"
+                    >
                       <div className="flex items-center gap-2">
                         <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
                         <span className="font-medium text-slate-700">{item.name}</span>
@@ -165,19 +180,71 @@ export default function App() {
                   ))}
                 </div>
               )}
+
+              {selectedStack.length > 0 && (
+                <button
+                  onClick={handleRemoveAll}
+                  className="w-full py-2 border border-red-200 text-red-500 hover:bg-red-50 rounded-lg text-xs font-medium transition"
+                >
+                  Remove All
+                </button>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="mt-auto border-t border-slate-200 bg-white py-10 px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <div className="flex items-center gap-2">
-            <div className="bg-pink-600 text-white font-bold p-1 rounded text-xs">DS</div>
-            <span className="font-bold text-slate-900 text-sm">Dev Stack</span>
+      {/* footer area */}
+      <footer className="mt-auto border-t border-slate-200 bg-white py-12 px-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 text-xs">
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <div className="bg-pink-600 text-white font-bold p-1 rounded text-xs">DS</div>
+              <span className="font-bold text-slate-900 text-sm">Dev Stack</span>
+            </div>
+            <p className="text-slate-400 leading-relaxed mb-4">
+              Curated tools, technologies, and resources for developers building modern software.
+            </p>
+            <div className="flex gap-3 text-slate-400 font-medium">
+              <a href="#" className="hover:text-slate-600">GitHub</a>
+              <a href="#" className="hover:text-slate-600">Twitter</a>
+              <a href="#" className="hover:text-slate-600">LinkedIn</a>
+            </div>
           </div>
-          <p>© Dev Stack Builder. All rights reserved.</p>
+
+          <div>
+            <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider">Product</h4>
+            <ul className="space-y-2 text-slate-500">
+              <li><a href="#" className="hover:text-slate-800">Home</a></li>
+              <li><a href="#" className="hover:text-slate-800">Technologies</a></li>
+              <li><a href="#" className="hover:text-slate-800">Projects</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider">Company</h4>
+            <ul className="space-y-2 text-slate-500">
+              <li><a href="#" className="hover:text-slate-800">About</a></li>
+              <li><a href="#" className="hover:text-slate-800">Contact</a></li>
+              <li><a href="#" className="hover:text-slate-800">Careers</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-slate-900 mb-3 uppercase tracking-wider">Legal</h4>
+            <ul className="space-y-2 text-slate-500">
+              <li><a href="#" className="hover:text-slate-800">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-slate-800">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto border-t border-slate-100 pt-6 flex justify-between items-center text-[11px] text-slate-400">
+          <p>© 2026 Dev Stack. All rights reserved.</p>
+          <div className="flex gap-4">
+            <a href="#" className="hover:text-slate-600">Privacy</a>
+            <a href="#" className="hover:text-slate-600">Terms</a>
+          </div>
         </div>
       </footer>
     </div>
