@@ -56,6 +56,47 @@ export default function App() {
           <img src="/banner-stack.png" alt="Dev Stack Illustration" className="w-full max-w-sm object-contain" />
         </div>
       </section>
+
+      {/* Main Content: Card Grid */}
+      <section className="max-w-7xl w-full mx-auto px-8 py-8">
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-slate-900">
+            Explore the <span className="text-purple-600">Technologies</span>
+          </h2>
+          <p className="text-slate-500 text-sm mt-1">
+            Pick one technology per category to build your ideal stack.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+            {technologies.map((tech) => (
+              <div key={tech.id} className="bg-white rounded-xl border border-slate-100 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition relative">
+                <div>
+                  <div className="flex justify-between items-start mb-3">
+                    <img src={tech.icon} alt={tech.name} className="w-8 h-8 object-contain" />
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-500 border border-blue-100">
+                      {tech.badge}
+                    </span>
+                  </div>
+                  <h3 className="font-bold text-slate-900 text-base mb-1">{tech.name}</h3>
+                  <p className="text-xs text-slate-500 line-clamp-3 mb-4 leading-relaxed">{tech.description}</p>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between text-[11px] text-slate-400 mb-3 border-t pt-3">
+                    <span>{tech.category}</span>
+                    <span>{tech.experienceLevel}</span>
+                    <span className="text-amber-500 font-bold">★ {tech.rating}</span>
+                  </div>
+                  <button className="w-full py-2 rounded-lg font-medium text-xs bg-slate-900 text-white">
+                    Add to Stack
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
