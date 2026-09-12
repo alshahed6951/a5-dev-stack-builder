@@ -9,6 +9,23 @@ export default function App() {
     setTechnologies(techData);
   }, []);
 
+  // Stack-এ প্রযুক্তি যোগ করার লজিক
+  const handleAddToStack = (tech) => {
+    if (!selectedStack.some((item) => item.id === tech.id)) {
+      setSelectedStack([...selectedStack, tech]);
+    }
+  };
+
+  // Stack থেকে সিঙ্গেল আইটেম ডিলিট করার লজিক
+  const handleRemoveFromStack = (id) => {
+    setSelectedStack(selectedStack.filter((item) => item.id !== id));
+  };
+
+  // সব আইটেম একসাথে ক্লিয়ার করার লজিক
+  const handleClearAll = () => {
+    setSelectedStack([]);
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
       {/* Navbar */}
@@ -71,36 +88,57 @@ export default function App() {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Card Grid */}
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-            {technologies.map((tech) => (
-              <div key={tech.id} className="bg-white rounded-xl border border-slate-100 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition relative">
-                <div>
-                  <div className="flex justify-between items-start mb-3">
-                    <img src={tech.icon} alt={tech.name} className="w-8 h-8 object-contain" />
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-500 border border-blue-100">
-                      {tech.badge}
-                    </span>
+            {technologies.map((tech) => {
+              const isAdded = selectedStack.some((item) => item.id === tech.id);
+              return (
+                <div key={tech.id} className="bg-white rounded-xl border border-slate-100 p-5 flex flex-col justify-between shadow-sm hover:shadow-md transition relative">
+                  <div>
+                    <div className="flex justify-between items-start mb-3">
+                      <img src={tech.icon} alt={tech.name} className="w-8 h-8 object-contain" />
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-blue-50 text-blue-500 border border-blue-100">
+                        {tech.badge}
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-slate-900 text-base mb-1">{tech.name}</h3>
+                    <p className="text-xs text-slate-500 line-clamp-3 mb-4 leading-relaxed">{tech.description}</p>
                   </div>
-                  <h3 className="font-bold text-slate-900 text-base mb-1">{tech.name}</h3>
-                  <p className="text-xs text-slate-500 line-clamp-3 mb-4 leading-relaxed">{tech.description}</p>
-                </div>
-                <div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 mb-3 border-t pt-3">
-                    <span>{tech.category}</span>
-                    <span>{tech.experienceLevel}</span>
-                    <span className="text-amber-500 font-bold">★ {tech.rating}</span>
+                  <div>
+                    <div className="flex items-center justify-between text-[11px] text-slate-400 mb-3 border-t pt-3">
+                      <span>{tech.category}</span>
+                      <span>{tech.experienceLevel}</span>
+                      <span className="text-amber-500 font-bold">★ {tech.rating}</span>
+                    </div>
+                    <button
+                      onClick={() => handleAddToStack(tech)}
+                      disabled={isAdded}
+                      className={`w-full py-2 rounded-lg font-medium text-xs transition ${
+                        isAdded
+                          ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                          : "bg-slate-900 text-white hover:bg-slate-800"
+                      }`}
+                    >
+                      {isAdded ? "Added" : "Add to Stack"}
+                    </button>
                   </div>
-                  <button className="w-full py-2 rounded-lg font-medium text-xs bg-slate-900 text-white">
-                    Add to Stack
-                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Right Sidebar: Your Stack */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl border border-slate-100 p-5 shadow-sm sticky top-6">
-              <h3 className="font-bold text-slate-900 text-base">Your Stack</h3>
+              <div className="flex items-center justify-between mb-1">
+                <h3 className="font-bold text-slate-900 text-base">Your Stack</h3>
+                {selectedStack.length > 0 && (
+                  <button
+                    onClick={handleClearAll}
+                    className="text-xs text-red-500 hover:underline font-medium"
+                  >
+                    Clear All
+                  </button>
+                )}
+              </div>
               <p className="text-xs text-slate-400 mb-4">
                 {selectedStack.length} Technology Selected
               </p>
@@ -117,7 +155,12 @@ export default function App() {
                         <img src={item.icon} alt={item.name} className="w-5 h-5 object-contain" />
                         <span className="font-medium text-slate-700">{item.name}</span>
                       </div>
-                      <button className="text-slate-400 hover:text-red-500 font-bold text-sm px-1">×</button>
+                      <button
+                        onClick={() => handleRemoveFromStack(item.id)}
+                        className="text-slate-400 hover:text-red-500 font-bold text-sm px-1"
+                      >
+                        ×
+                      </button>
                     </div>
                   ))}
                 </div>
