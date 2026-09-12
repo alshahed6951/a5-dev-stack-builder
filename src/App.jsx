@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import techData from "./technologies.json";
 
 export default function App() {
+  const [technologies, setTechnologies] = useState([]);
+  const [selectedStack, setSelectedStack] = useState([]);
+
+  useEffect(() => {
+    setTechnologies(techData);
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans">
+      {/* Navbar */}
       <nav className="flex items-center justify-between px-8 py-4 bg-white border-b border-slate-100 max-w-7xl w-full mx-auto">
         <div className="flex items-center gap-2">
           <div className="bg-pink-600 text-white font-bold p-1.5 rounded-lg text-sm">DS</div>
